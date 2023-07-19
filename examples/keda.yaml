@@ -1,0 +1,20 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: rabbitmq-queue-scaler
+spec:
+  scaleTargetRef:
+    name: symphony-executor
+  pollingInterval: 5 # seconds
+  cooldownPeriod: 120 # seconds
+  minReplicaCount: 0
+  maxReplicaCount: 10
+  triggers:
+  - type: rabbitmq
+    metadata:
+      protocol: amqp
+      queueName: default.queue.DEV
+      mode: QueueLength
+      value: "2"
+    authenticationRef:
+      name: keda-trigger-auth-rabbitmq-executor
