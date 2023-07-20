@@ -52,7 +52,7 @@ kind create cluster --name ${CLUSTER_NAME}
 # install CRDs to the KinD cluster and dump the swagger spec
 for url in "${CRD_URLS[@]}"; do
   if [[ ! -z $url ]]; then
-    kubectl create -f "$url"
+    kubectl create --server-side -f "$url"
   fi
 done
 
